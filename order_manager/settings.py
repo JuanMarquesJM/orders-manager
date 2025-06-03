@@ -59,7 +59,7 @@ ROOT_URLCONF = 'order_manager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,6 +70,8 @@ TEMPLATES = [
         },
     },
 ]
+
+STATIC_URL = 'static/'
 
 WSGI_APPLICATION = 'order_manager.wsgi.application'
 
