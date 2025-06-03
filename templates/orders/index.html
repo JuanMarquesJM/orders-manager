@@ -12,10 +12,10 @@
         <h1>Order Management</h1>
         
         <div class="menu">
-            <a href="#">📦 View Orders</a>
-            <a href="#">➕ Create Order</a>
-            <a href="#">👤 Clients</a>
-            <a href="#">🛒 Products</a>
+            <a href="{% url 'view_orders' %}">📦 View Orders</a>
+            <a href="{% url 'create_order' %}">➕ Create Order</a>
+            <a href="{% url 'clients' %}">👤 Clients</a>
+            <a href="{% url 'products' %}">🛒 Products</a>
         </div>
 
         <div class="content">
