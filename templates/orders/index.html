@@ -1,27 +1,29 @@
+{% extends "orders/base.html" %}
 {% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Order Management</title>
-    <link rel="stylesheet" href="{% static 'orders/style.css' %}">
-</head>
-<body>
+{% block content %}
     <div class="container">
-        <h1>Order Management</h1>
-        
-        <div class="menu">
-            <a href="{% url 'view_orders' %}">📦 View Orders</a>
-            <a href="{% url 'create_order' %}">➕ Create Order</a>
-            <a href="{% url 'clients' %}">👤 Clients</a>
-            <a href="{% url 'products' %}">🛒 Products</a>
-        </div>
+        <header>
+            <h1>Order Management</h1>
+        </header>
 
-        <div class="content">
-            <h2>Welcome to your order system!</h2>
-            <p>This is the home page. Use the menu to navigate between sections.</p>
-        </div>
+        <nav class="menu">
+            <a href="{% url 'view_orders' %}" aria-label="View Orders">
+                <span aria-hidden="true">📦</span> View Orders
+            </a>
+            <a href="{% url 'create_order' %}" aria-label="Create Order">
+                <span aria-hidden="true">➕</span> Create Order
+            </a>
+            <a href="{% url 'clients' %}" aria-label="Clients">
+                <span aria-hidden="true">👤</span> Clients
+            </a>
+            <a href="{% url 'products' %}" aria-label="Products">
+                <span aria-hidden="true">🛒</span> Products
+            </a>
+        </nav>
+
+        <main class="content">
+                <h2>Welcome to your order system!</h2>
+                <p>This is the home page. Use the menu to navigate between sections.</p>
+        </main>
     </div>
-</body>
-</html>
+{% endblock %}
