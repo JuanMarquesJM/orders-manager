@@ -15,3 +15,9 @@ def clients(request):
 
 def products(request):
     return render(request, 'orders/products.html')
+
+def add_new_product(request):
+    return render(request, 'orders/add_new_product.html')
+
+def add_new_client(request):
+    return render(request, 'orders/add_new_client.html')

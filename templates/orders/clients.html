@@ -1,42 +1,36 @@
 {% extends "orders/base.html" %}
 {% load static %}
 
+{% block header %}Client Management{% endblock %}
+
 {% block content %}
-<div class="container">
-    <header>
-        <h1>Client Management</h1>
-    </header>
-
-    <nav class="menu">
-        <a href="{% url 'view_orders' %}" aria-label="View Orders">
-            <span aria-hidden="true">📦</span> View Orders
-        </a>
-        <a href="{% url 'create_order' %}" aria-label="Create Order">
-            <span aria-hidden="true">➕</span> Create Order
-        </a>
-        <a href="{% url 'clients' %}" aria-label="Clients" class="active">
-            <span aria-hidden="true">👤</span> Clients
-        </a>
-        <a href="{% url 'products' %}" aria-label="Products">
-            <span aria-hidden="true">🛒</span> Products
-        </a>
-    </nav>
-
-    <main class="content">
-        <h2>Client List</h2>
-        
-        <div class="client-list">
-            {% for client in clients %}
-            <div class="client-card">
+    <h2>Client List</h2>
+    
+    <div class="client-list">
+        {% for client in clients %}
+        <div class="client-card">
+            <div class="client-info">
                 <h3>{{ client.name }}</h3>
-                <p><strong>Email:</strong> {{ client.email }}</p>
-                <p><strong>Phone:</strong> {{ client.phone }}</p>
-                <p><strong>Orders:</strong> {{ client.order_count }}</p>
+                <p><span class="label">Email:</span> {{ client.email }}</p>
+                <p><span class="label">Phone:</span> {{ client.phone }}</p>
+                <p><span class="label">Orders:</span> {{ client.order_count }}</p>
             </div>
-            {% empty %}
-            <p>No clients found.</p>
-            {% endfor %}
+            <div class="client-actions">
+                <a href="{% url 'edit_client' client.id %}" class="btn-sm">✏️ Edit</a>
+                <a href="{% url 'delete_client' client.id %}" class="btn-sm danger">🗑️ Delete</a>
+            </div>
         </div>
-    </main>
-</div>
+        {% empty %}
+        <div class="empty-state">
+            <p>No clients found.</p>
+            <button href="{% url 'add_new_client' %}" class="btn">➕ Add New Client</button>
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% if clients %}
+    <div class="actions-footer">
+        <button href="{% url 'add_new_client' %}" class="btn">➕ Add New Client</button>
+    </div>
+    {% endif %}
 {% endblock %}
