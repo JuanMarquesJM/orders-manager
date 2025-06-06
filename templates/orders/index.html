@@ -1,29 +1,7 @@
 {% extends "orders/base.html" %}
 {% load static %}
+
 {% block content %}
-    <div class="container">
-        <header>
-            <h1>Order Management</h1>
-        </header>
-
-        <nav class="menu">
-            <a href="{% url 'view_orders' %}" aria-label="View Orders">
-                <span aria-hidden="true">📦</span> View Orders
-            </a>
-            <a href="{% url 'create_order' %}" aria-label="Create Order">
-                <span aria-hidden="true">➕</span> Create Order
-            </a>
-            <a href="{% url 'clients' %}" aria-label="Clients">
-                <span aria-hidden="true">👤</span> Clients
-            </a>
-            <a href="{% url 'products' %}" aria-label="Products">
-                <span aria-hidden="true">🛒</span> Products
-            </a>
-        </nav>
-
-        <main class="content">
-                <h2>Welcome to your order system!</h2>
-                <p>This is the home page. Use the menu to navigate between sections.</p>
-        </main>
-    </div>
+    <h2>Welcome to your order system!</h2>
+    <p>This is the home page. Use the menu to navigate between sections.</p>
 {% endblock %}

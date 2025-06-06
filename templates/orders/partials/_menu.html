@@ -1,0 +1,16 @@
+{% load static %}
+<nav class="menu">
+        <a href="{% url 'view_orders' %}" aria-label="View Orders">
+            <span aria-hidden="true">📦</span> View Orders
+        </a>
+        <a href="{% url 'create_order' %}" aria-label="Create Order">
+            <span aria-hidden="true">➕</span> Create Order
+        </a>
+        <a href="{% url 'clients' %}" aria-label="Clients">
+            <span aria-hidden="true">👤</span> Clients
+        </a>
+        <a href="{% url 'products' %}" aria-label="Products">
+            <span aria-hidden="true">🛒</span> Products
+        </a>
+</nav>
+{% block content %}{% endblock %}
