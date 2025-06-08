@@ -14,6 +14,7 @@
                 <p><span class="label">Email:</span> {{ client.email }}</p>
                 <p><span class="label">Phone:</span> {{ client.phone }}</p>
                 <p><span class="label">Orders:</span> {{ client.order_count }}</p>
+                <p><span class="label">Company:</span> {{ client.company }}</p>
             </div>
             <div class="client-actions">
                 <a href="{% url 'edit_client' client.id %}" class="btn-sm">✏️ Edit</a>
@@ -23,7 +24,7 @@
         {% empty %}
         <div class="empty-state">
             <p>No clients found.</p>
-            <button href="{% url 'add_new_client' %}" class="btn">➕ Add New Client</button>
+            <a href="{% url 'add_new_client' %}" class="btn">➕ Add New Client</a>
         </div>
         {% endfor %}
     </div>
