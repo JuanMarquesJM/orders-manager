@@ -13,12 +13,11 @@
                 <h3>{{ client.name }}</h3>
                 <p><span class="label">Email:</span> {{ client.email }}</p>
                 <p><span class="label">Phone:</span> {{ client.phone }}</p>
-                <p><span class="label">Orders:</span> {{ client.order_count }}</p>
                 <p><span class="label">Company:</span> {{ client.company }}</p>
             </div>
             <div class="client-actions">
-                <a href="{% url 'edit_client' client.id %}" class="btn-sm">✏️ Edit</a>
-                <a href="{% url 'delete_client' client.id %}" class="btn-sm danger">🗑️ Delete</a>
+                <a href="#" class="btn-sm">✏️ Edit</a>
+                <a href="#" class="btn-sm danger">🗑️ Delete</a>
             </div>
         </div>
         {% empty %}

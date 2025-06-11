@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Client(models.Model):
     client_id = models.CharField(max_length=20, unique=True)
     name = models.CharField(max_length=100)
@@ -9,6 +10,7 @@ class Client(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.client_id})"
+
 
 class Product(models.Model):
     product_id = models.CharField(max_length=20, unique=True)
@@ -20,11 +22,14 @@ class Product(models.Model):
         ('OFFICE_SUPPLIES', 'Office Supplies'),
         ('CLOTHING', 'Clothing'),
         ('FOOD', 'Food'),
+        ('OTHER', 'Other'),
     ]
     category = models.CharField(max_length=30, choices=CATEGORY_CHOICES, default='OTHER')
     stock_quantity = models.PositiveIntegerField(default=0)
+
     def __str__(self):
         return f"{self.name} ({self.product_id})"
+
 
 class Order(models.Model):
     STATUS_CHOICES = [
@@ -47,10 +52,11 @@ class Order(models.Model):
     def total(self):
         return sum(item.total_price for item in self.items.all())
 
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name} in {self.order.order_id}"
