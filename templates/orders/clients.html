@@ -1,36 +1,14 @@
-{% extends "orders/base.html" %}
-{% load static %}
-
-{% block header %}Client Management{% endblock %}
-
+{% extends 'orders/partials/_base.html' %}
+{% block title %}Clients{% endblock %}
 {% block content %}
-    <h2>Client List</h2>
-    
-    <div class="client-list">
-        {% for client in clients %}
-        <div class="client-card">
-            <div class="client-info">
-                <h3>{{ client.name }}</h3>
-                <p><span class="label">Email:</span> {{ client.email }}</p>
-                <p><span class="label">Phone:</span> {{ client.phone }}</p>
-                <p><span class="label">Company:</span> {{ client.company }}</p>
-            </div>
-            <div class="client-actions">
-                <a href="#" class="btn-sm">✏️ Edit</a>
-                <a href="#" class="btn-sm danger">🗑️ Delete</a>
-            </div>
-        </div>
-        {% empty %}
-        <div class="empty-state">
-            <p>No clients found.</p>
-            <a href="{% url 'add_new_client' %}" class="btn">➕ Add New Client</a>
-        </div>
-        {% endfor %}
-    </div>
-    
-    {% if clients %}
-    <div class="actions-footer">
-        <button href="{% url 'add_new_client' %}" class="btn">➕ Add New Client</button>
-    </div>
-    {% endif %}
+<h2>Clients</h2>
+<a class="action-btn" href="{% url 'add_new_client' %}"><i class="fas fa-plus"></i> Add New Client</a>
+<ul>
+    {% for client in clients %}
+    <li>{{ client.name }} - {{ client.email }}
+        <a href="{% url 'update_client' client.pk %}">Edit</a>
+        <a href="{% url 'delete_client' client.pk %}">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
 {% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'orders/partials/_base.html' %}
+{% block title %}Order Detail{% endblock %}
+{% block content %}
+<h2>Order {{ order.order_id }}</h2>
+<p>Client: {{ order.client.name }}</p>
+<p>Status: {{ order.status }}</p>
+<p>Payment Method: {{ order.payment_method }}</p>
+<h3>Items</h3>
+<ul>
+    {% for item in order.orderitem_set.all %}
+    <li>{{ item.product.name }} - Quantity: {{ item.quantity }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'view_orders' %}">Back to Orders</a>
+{% endblock %}

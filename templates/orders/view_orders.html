@@ -1,56 +1,15 @@
-{% extends "orders/base.html" %}
-{% load static %}
-
+{% extends 'orders/partials/_base.html' %}
+{% block title %}Orders{% endblock %}
 {% block content %}
-  <h2>Order List</h2>
-  
-  <div class="order-filters">
-    <input type="text" placeholder="Search orders..." id="order-search">
-    <select id="status-filter">
-      <option value="">All Statuses</option>
-      <option value="PENDING">Pending</option>
-      <option value="PAID">Paid</option>
-      <option value="SHIPPED">Shipped</option>
-      <option value="CANCELLED">Cancelled</option>
-    </select>
-  </div>
-  
-  <div class="order-list">
+<h2>Orders</h2>
+<a class="action-btn" href="{% url 'create_order' %}"><i class="fas fa-plus"></i> Create Order</a>
+<ul>
     {% for order in orders %}
-      <div class="order-card">
-        <div class="order-header">
-          <span class="order-id">#{{ order.order_id }}</span>
-          <span class="order-date">{{ order.created_at|date:"M d, Y" }}</span>
-          <span class="order-status {{ order.status|lower }}">{{ order.get_status_display }}</span>
-        </div>
-        
-        <div class="order-details">
-          <p><strong>Client:</strong> {{ order.client.name }}</p>
-          
-          <p><strong>Products:</strong></p>
-          <ul>
-            {% for item in order.items.all %}
-              <li>
-                {{ item.product.name }} – 
-                {{ item.quantity }} × ${{ item.product.price }} = 
-                ${{ item.total_price }}
-              </li>
-            {% empty %}
-              <li><em>No items in this order.</em></li>
-            {% endfor %}
-          </ul>
-          
-          <p><strong>Payment Method:</strong> {{ order.payment_method|default:"—" }}</p>
-          <p><strong>Total:</strong> ${{ order.total }}</p>
-        </div>
-        
-        <div class="order-actions">
-          <a href="#" class="btn-sm">View Details</a>
-          <a href="#"  class="btn-sm">Edit</a>
-        </div>
-      </div>
-    {% empty %}
-      <p>No orders found.</p>
+    <li>Order {{ order.order_id }} - {{ order.client.name }}
+        <a href="{% url 'order_detail' order.pk %}">View</a>
+        <a href="{% url 'update_order' order.pk %}">Edit</a>
+        <a href="{% url 'delete_order' order.pk %}">Delete</a>
+    </li>
     {% endfor %}
-  </div>
+</ul>
 {% endblock %}

@@ -1,26 +1,22 @@
 {% load static %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Order Management{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'orders/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>{% block title %}Order Manager{% endblock %}</title>
 </head>
-
 <body>
-    <div class="container">
-        <header>
-            <h1>{% block header %}Order Management{% endblock %}</h1>
-        </header>
+    {% include 'orders/partials/_header.html' %}
+    {% include 'orders/partials/_menu.html' %}
 
-        <nav class="menu">
-            {% include 'orders/partials/_menu.html' %}
-        </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 
-        <main class="content">
-            {% block content %}{% endblock %}
-        </main>
-    </div>
+    {% include 'orders/partials/_footer.html' %}
 </body>
 </html>
