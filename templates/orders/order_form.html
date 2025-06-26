@@ -4,12 +4,32 @@
 <h2>{{ title }}</h2>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    
+    <div class="form-group">
+        {{ form.client.label_tag }}
+        {{ form.client }}
+    </div>
+    
     {{ formset.management_form }}
-    {% for form in formset %}
-        {{ form.as_p }}
-    {% endfor %}
-    <button type="submit">Save Order</button>
-    <a href="{% url 'view_orders' %}">Cancel</a>
+    <div id="formset-container">
+        {% for form in formset %}
+            <div class="formset-item">
+                <div class="form-group">
+                    {{ form.product.label_tag }}
+                    {{ form.product }}
+                </div>
+                <div class="form-group">
+                    {{ form.quantity.label_tag }}
+                    {{ form.quantity }}
+                </div>
+                {{ form.id }}  
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{% url 'view_orders' %}" class="btn btn-outline">Cancel</a>
+    </div>
 </form>
 {% endblock %}

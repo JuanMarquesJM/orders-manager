@@ -1,0 +1,17 @@
+{% extends 'orders/partials/_base.html' %}
+
+{% block title %}Edit Client{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Edit Client</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Update Client</button>
+            <a href="{% url 'clients' %}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

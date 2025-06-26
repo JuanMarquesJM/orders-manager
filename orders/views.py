@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Client, Product, Order
-from .forms import ClientForm, ProductForm, OrderForm, OrderItem
+from .forms import ClientForm, ProductForm, OrderForm, OrderItem, RegisterForm
 from django.forms import inlineformset_factory
-from .models import Order, Product 
+from .models import Order, Product
+from django.contrib.auth import login
+from django.contrib.auth.views import LoginView
 
 @login_required
 def index(request):
@@ -69,12 +71,22 @@ def add_new_product(request):
 @login_required
 def update_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    form = ProductForm(request.POST or None, instance=product)
-    if form.is_valid():
-        form.save()
-        messages.success(request, 'Product updated successfully.')
-        return redirect('products')
-    return render(request, 'orders/product_form.html', {'form': form, 'title': 'Edit Product'})
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            updated_product = form.save(commit=False)
+            updated_product.save() 
+            messages.success(request, f'Product "{updated_product.name}" updated successfully!')
+            return redirect('products')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = ProductForm(instance=product)
+    
+    return render(request, 'orders/product_update.html', {
+        'form': form,
+        'product': product
+    })
 
 @login_required
 def delete_product(request, pk):
@@ -93,7 +105,7 @@ def view_orders(request):
 OrderItemFormSet = inlineformset_factory(
     Order,
     OrderItem,
-    fields=('product', 'quantity',),  # Adjust fields as needed
+    fields=('product', 'quantity',),
     extra=1,
     can_delete=True
 )
@@ -118,34 +130,43 @@ def create_order(request):
         'title': 'Create Order'
     })
 
-# EDIÇÃO DE PEDIDO
+
 @login_required
 def update_order(request, pk):
     order = get_object_or_404(Order, pk=pk)
+    OrderItemFormSet = inlineformset_factory(
+        Order, 
+        OrderItem,
+        fields=('product', 'quantity'),
+        extra=0  
+    )
+
     if request.method == 'POST':
         form = OrderForm(request.POST, instance=order)
         formset = OrderItemFormSet(request.POST, instance=order)
+        
         if form.is_valid() and formset.is_valid():
             form.save()
-            formset.save()
+            formset.save()  # Isso já salva todas as instâncias
             messages.success(request, 'Order updated successfully.')
             return redirect('view_orders')
     else:
         form = OrderForm(instance=order)
         formset = OrderItemFormSet(instance=order)
-    return render(request, 'orders/order_form.html', {
+    
+    return render(request, 'orders/update_order.html', {
         'form': form,
         'formset': formset,
-        'title': 'Edit Order'
+        'order': order
     })
 
-# DETALHE DO PEDIDO
+
 @login_required
 def order_detail(request, pk):
     order = get_object_or_404(Order, pk=pk)
-    return render(request, 'orders/order_detail.html', {'order': order})
+    return render(request, 'orders/order_details.html', {'order': order})
 
-# EXCLUSÃO DE PEDIDO
+
 @login_required
 def delete_order(request, pk):
     order = get_object_or_404(Order, pk=pk)
@@ -154,3 +175,29 @@ def delete_order(request, pk):
         messages.success(request, 'Order deleted successfully.')
         return redirect('view_orders')
     return render(request, 'orders/order_confirm_delete.html', {'object': order})
+
+def register(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  
+            messages.success(request, 'Registration successful. You are now logged in.')
+            return redirect('index')
+        else:
+            messages.error(request, 'Please correct the errors below.')  
+    else:
+        form = RegisterForm()
+    
+    return render(request, 'orders/register.html', {
+        'form': form,
+        'hide_navbar': True
+     })
+
+class CustomLoginView(LoginView):
+    template_name = 'orders/login.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['hide_navbar'] = True
+        return context

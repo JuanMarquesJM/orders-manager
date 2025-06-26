@@ -1,0 +1,15 @@
+{% extends 'orders/partials/_base.html' %}
+
+{% block title %}Delete Client{% endblock %}
+
+{% block content %}
+    <h2>Delete Client</h2>
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete client "{{ client.name|default:'(Unnamed Client)' }}"?</p>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Confirm Delete</button>
+            <a href="{% url 'clients' %}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+{% endblock %}

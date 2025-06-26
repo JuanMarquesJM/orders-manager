@@ -1,15 +1,35 @@
 {% extends 'orders/partials/_base.html' %}
 {% block title %}Orders{% endblock %}
 {% block content %}
-<h2>Orders</h2>
-<a class="action-btn" href="{% url 'create_order' %}"><i class="fas fa-plus"></i> Create Order</a>
-<ul>
-    {% for order in orders %}
-    <li>Order {{ order.order_id }} - {{ order.client.name }}
-        <a href="{% url 'order_detail' order.pk %}">View</a>
-        <a href="{% url 'update_order' order.pk %}">Edit</a>
-        <a href="{% url 'delete_order' order.pk %}">Delete</a>
-    </li>
-    {% endfor %}
-</ul>
+<div class="orders-container">
+    <h2>Orders</h2>
+    <a class="action-btn" href="{% url 'create_order' %}"><i class="fas fa-plus"></i> Create Order</a>
+    
+    <div class="orders-table">
+        <div class="table-header">
+            <div class="table-row">
+                <div class="table-cell header-cell">Order #</div>
+                <div class="table-cell header-cell">Client</div>
+                <div class="table-cell header-cell">Date</div>
+                <div class="table-cell header-cell">Total</div>
+                <div class="table-cell header-cell actions-header">Actions</div>
+            </div>
+        </div>
+        <div class="table-body">
+            {% for order in orders %}
+            <div class="table-row">
+                <div class="table-cell">{{ order.order_number }}</div>
+                <div class="table-cell">{{ order.client.name }}</div>
+                <div class="table-cell">{{ order.created_at|date:"SHORT_DATE_FORMAT" }}</div>
+                <div class="table-cell">${{ order.total|floatformat:2 }}</div>
+                <div class="table-cell actions-cell">
+                    <a href="{% url 'order_details' order.pk %}" class="btn-view">View</a>
+                    <a href="{% url 'update_order' order.pk %}" class="btn-edit">Edit</a>
+                    <a href="{% url 'delete_order' order.pk %}" class="btn-delete">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}
