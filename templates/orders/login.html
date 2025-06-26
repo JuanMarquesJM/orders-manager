@@ -1,13 +1,20 @@
 {% extends 'orders/partials/_base.html' %}
+
 {% block title %}Login{% endblock %}
+
 {% block content %}
-<h2>Login</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
-{% if form.errors %}
-    <p style="color: red;">Login failed. Please check your username and password.</p>
-{% endif %}
+<div class="login-container">
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-login">Login</button>
+    </form>
+    <div class="register-prompt">
+        Don't have an account? <a href="{% url 'register' %}">Register</a>
+    </div>
+    {% if form.errors %}
+        <p class="login-error">Login failed. Please check your username and password.</p>
+    {% endif %}
+</div>
 {% endblock %}
